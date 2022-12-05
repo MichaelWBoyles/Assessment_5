@@ -18,7 +18,7 @@ Building a HTML game is something that interests me quite a bit. I have always d
    - Rick and Morty API 
        https://rickandmortyapi.com/
    - Stock Market History API
-       https://polygon.io/ or https://www.alphavantage.co/
+       https://polygon.io/ or https://www.alphavantage.co/ or https://algotrading101.com/learn/yahoo-finance-api-guide/
    - (If avalible "Extra Goal")
        items from EVE-Online API
            https://esi.evetech.net/ui#/
