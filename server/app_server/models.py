@@ -14,7 +14,7 @@ class AppUser(AbstractUser):
 
     # A user account must be active to log in, etc.
     is_active =  models.BooleanField(
-       default=False,
+       default=True,
        help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='active',
     )
 
