@@ -20,5 +20,7 @@ from . import views
 urlpatterns = [
     path('', views.index),
     # path('whoami/', views.whoami), # Testing API, rest_framework
-    path('singIn/', views.signIn)
+    path('signIn/', views.signIn),
+    path('signUp/', views.signUp),
+    path('signOut/', views.signOut),
 ]
