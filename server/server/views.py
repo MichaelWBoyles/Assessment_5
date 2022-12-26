@@ -6,8 +6,12 @@ def index(request):
     homepage = open('static/index.html').read()
     return HttpResponse(homepage)
 
-@api_view(['GET'])
-def whoami(request):
-    print("whoami")
-    user = {"name": "me", "email": "you@yahoo.com"}
-    return JsonResponse(data = user)
+# @api_view(['GET'])
+# def whoami(request):
+#     print("whoami")
+#     user = {"name": "me", "email": "you@yahoo.com"}
+#     return JsonResponse(data = user)
+
+
+def signIn(request):
+    return JsonResponse({'success':True})

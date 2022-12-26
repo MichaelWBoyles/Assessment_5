@@ -18,7 +18,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', views.index),
-    path('whoami/', views.whoami),
+    # path('whoami/', views.whoami), # Testing API, rest_framework
+    path('singIn/', views.signIn)
 ]
