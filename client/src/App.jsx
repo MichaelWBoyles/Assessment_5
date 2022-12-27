@@ -59,12 +59,13 @@ const signUp=async()=>{
     setinfo('Password must be 8 letter long')
   }
   else{
-//   let myResponse = await axios.post('signUp/',{
-//     'email':email,
-//     'password':password
-//   })
-//   console.log(myResponse.data)
-    setinfo(null)
+    let myResponse = await axios.post('signUp/',{
+      'email':email,
+      'password':password
+    })
+    console.log(myResponse.data)
+    if(myResponse.data.signup == false){setinfo('That user allready exists')}
+    else{setinfo(null)}
   }
 }
 
@@ -90,7 +91,8 @@ useEffect(() =>{
 
   return (
     <div className="App">
-      {user && <h1>{user.email}</h1>}
+      {(!user && !info) && <h1>Login</h1>}
+      {user && <h1>User {user.email} is signed in.</h1>}
       {info && <h2>{info}</h2>}
       <div className="card">
         {!user && <div>
