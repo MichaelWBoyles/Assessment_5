@@ -30,28 +30,39 @@ const [user, setUser]= useState(null)
 
 const signIn=async()=>{
   console.log('Sign In')
-  let email='mike@gmail.com'
-  let password='mike1234'
+  let email=document.getElementById("signInEmail").value
+  let password=document.getElementById("signInPassword").value
+  console.log(email)
   let myResponse = await axios.post('signIn/',{
     'email':email,
     'password':password
   })
-  console.log(myResponse.data) 
+  console.log(myResponse.data)
+  
+  if (myResponse.data["signIn"]==true){
+    window.location.reload() // reload's the web page
+  }
 }
+
 const signUp=async()=>{
   console.log('Sign Up')
-  let email='mike@gmail.com'
-  let password='mike1234'
+  let email=document.getElementById("signInEmail").value
+  console.log("email: " + email)
+  let password=document.getElementById("signUpPassword").value
   let myResponse = await axios.post('signUp/',{
     'email':email,
     'password':password
   })
   console.log(myResponse.data) 
 }
+
 const signOut=async()=>{
   console.log('Sign Out') 
   let myResponse = await axios.get('signOut/')
-  console.log(myResponse.data) 
+  if (myResponse.data["signout"]==true){
+    window.location.reload() // reload's the web page
+  }
+  
 }
 
 const curr_user=async()=>{
@@ -63,10 +74,18 @@ useEffect(() =>{
   curr_user()
 },[])
 
+
+
   return (
     <div className="App">
       {user && <h1>{user.email}</h1>}
-      <div>
+      <div className="card">
+        <input id='signInEmail' placeholder='email' />
+        <br/>
+        <input id='signInPassword' placeholder='current password' type="password"/>
+        <br/>
+        <input id='signUpPassword' placeholder='sign up password only'/>
+        <br/>
         <button onClick={signIn}>Sign In</button>
         <button onClick={signUp}>Sign Up</button>
         <button onClick={signOut}>Sign Out</button>

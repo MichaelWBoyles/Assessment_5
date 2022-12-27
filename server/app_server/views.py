@@ -37,8 +37,9 @@ def signIn(request):
 
 @api_view(['GET'])
 def curr_user(request):
+    print("---Curr User Reached---")
     if request.user.is_authenticated:
-        data=serializers.serializer("json", [request.user], fields=['email'])
+        data=serializers.serialize("json", [request.user], fields=['email'])
         return HttpResponse(data)
     else:
         return JsonResponse({"user":None})
@@ -60,6 +61,13 @@ def signUp(request):
         return JsonResponse({'signup':False})
 
 
-# @api_view(['POST'])
+@api_view(['GET','POST'])
 def signOut(request):
-    return JsonResponse({'success':True})
+    print("---Sign Out Reached---")
+    try:
+        logout(request)
+        print(f"Loged Out {request.data}")
+        return JsonResponse({'signout':True})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'signout':False})
