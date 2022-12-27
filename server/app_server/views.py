@@ -32,6 +32,7 @@ def signIn(request):
             print(e)
             return JsonResponse({'signIn':False})
     else:
+        print('User/password Not Found')
         return JsonResponse({'signIn':False})
 
 
@@ -52,7 +53,7 @@ def signUp(request):
     # print(request.data)
     email=request.data['email']
     password=request.data['password']
-    print(email, password)
+    # print(email, password)
     try:
         AppUser.objects.create_user(username=email,email=email, password=password)
         return JsonResponse({'signup':True})

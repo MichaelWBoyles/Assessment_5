@@ -27,6 +27,7 @@ function App() {
 
 // const [count, setCount] = useState(0)
 const [user, setUser]= useState(null)
+const [info, setinfo]= useState(null)
 
 const signIn=async()=>{
   console.log('Sign In')
@@ -41,19 +42,30 @@ const signIn=async()=>{
   
   if (myResponse.data["signIn"]==true){
     window.location.reload() // reload's the web page
+    setinfo(null)
+  }
+  else{
+    setinfo('Wrong User-Name or Password')
   }
 }
 
 const signUp=async()=>{
   console.log('Sign Up')
+
   let email=document.getElementById("signInEmail").value
   console.log("email: " + email)
   let password=document.getElementById("signUpPassword").value
-  let myResponse = await axios.post('signUp/',{
-    'email':email,
-    'password':password
-  })
-  console.log(myResponse.data) 
+  if (password.length < 8){
+    setinfo('Password must be 8 letter long')
+  }
+  else{
+//   let myResponse = await axios.post('signUp/',{
+//     'email':email,
+//     'password':password
+//   })
+//   console.log(myResponse.data)
+    setinfo(null)
+  }
 }
 
 const signOut=async()=>{
@@ -79,16 +91,19 @@ useEffect(() =>{
   return (
     <div className="App">
       {user && <h1>{user.email}</h1>}
+      {info && <h2>{info}</h2>}
       <div className="card">
-        <input id='signInEmail' placeholder='email' />
-        <br/>
-        <input id='signInPassword' placeholder='current password' type="password"/>
-        <br/>
-        <input id='signUpPassword' placeholder='sign up password only'/>
-        <br/>
-        <button onClick={signIn}>Sign In</button>
-        <button onClick={signUp}>Sign Up</button>
-        <button onClick={signOut}>Sign Out</button>
+        {!user && <div>
+          <input id='signInEmail' placeholder='email' />
+          <br/>
+          <input id='signInPassword' placeholder='current password' type="password"/>
+          <br/>
+          <input id='signUpPassword' placeholder='sign up password only'/>
+          <br/>
+          <button onClick={signIn}>Sign In</button>
+          <button onClick={signUp}>Sign Up</button>
+        </div>}
+        {user && <button onClick={signOut}>Sign Out</button>}
       </div>
     </div>
   )
