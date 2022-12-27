@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate, login, logout
 from django.core import serializers
 from .models import *
+import random
 
 def index(request):
     print('index')
@@ -23,13 +24,15 @@ def signIn(request):
     email=request.data['email']
     password=request.data['password']
     user=authenticate(username=email, password=password)
-    print(user)
+    print(f'User: {user}')
     if user is not None and user.is_active:
         try:
             login(request._request, user)
+            print('True')
             return JsonResponse({'signIn':True})
         except Exception as e:
             print(e)
+            print('False')
             return JsonResponse({'signIn':False})
     else:
         print('User/password Not Found')
@@ -40,7 +43,7 @@ def signIn(request):
 def curr_user(request):
     print("---Curr User Reached---")
     if request.user.is_authenticated:
-        data=serializers.serialize("json", [request.user], fields=['email'])
+        data=serializers.serialize("json", [request.user], fields=['email','wealth','picture'])
         return HttpResponse(data)
     else:
         return JsonResponse({"user":None})
@@ -55,11 +58,14 @@ def signUp(request):
     password=request.data['password']
     # print(email, password)
     try:
-        AppUser.objects.create_user(username=email,email=email, password=password)
+        AppUser.objects.create_user(username=email,email=email, password=password, wealth=200, picture=random.randint(1, 826))
+        # print('True')
         return JsonResponse({'signup':True})
     except Exception as e:
         print(e)
+        # print('False')
         return JsonResponse({'signup':False})
+    # return JsonResponse({'signup':False})
 
 
 @api_view(['GET','POST'])
@@ -72,3 +78,14 @@ def signOut(request):
     except Exception as e:
         print(e)
         return JsonResponse({'signout':False})
+
+@api_view(['GET','POST'])
+def upDate(request):
+    print("---Updating---")
+    print(request.data)
+    print(request.method)
+    value = request.data['value']
+    temp = request.user
+    print(request.user)
+    # print(AppUser.objects.get)
+    return JsonResponse({'signout':True})

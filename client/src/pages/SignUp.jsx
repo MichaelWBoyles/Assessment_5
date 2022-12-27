@@ -13,16 +13,22 @@ const SignUp=()=>{
         console.log("email: " + email)
         let password=document.getElementById("signUpPassword").value
         if (password.length < 8){
-          setinfo('Password must be 8 letter long')
+            setinfo('Password must be 8 letter long')
         }
         else{
-          let myResponse = await axios.post('signUp/',{
+            let myResponse = await axios.post('signUp/',{
             'email':email,
             'password':password
-          })
-          console.log(myResponse.data)
-          if(myResponse.data.signup == false){setinfo('That user allready exists')}
-          else{setinfo(null)}
+            })
+            console.log('second part of signup')
+            console.log(myResponse.data['signup'])
+            if (myResponse.data['signup']==true){
+                window.location.href="/#/signIn"
+            }
+            else{
+                alert('That user allready exists')
+                // window.location.reload()
+            }
         }
       }
     return(

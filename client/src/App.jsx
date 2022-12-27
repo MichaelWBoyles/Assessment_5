@@ -7,6 +7,10 @@ import SignUp from "./pages/SignUp"
 import SignIn from "./pages/SignIn"
 import AppNav from "./components/AppNav"
 
+import UpDate from "./pages/UpDate"
+import Nav from 'react-bootstrap/Nav'
+import Navbar from 'react-bootstrap/Navbar'
+
 
 function getCookie(name) {
   let cookieValue = null;
@@ -27,51 +31,39 @@ const csrftoken = getCookie('csrftoken');
 axios.defaults.headers.common["X-CSRFToken"]=csrftoken
 
 
+
 function App() {
 
-// const [count, setCount] = useState(0)
+// variables that can be recaled later
 const [user, setUser]= useState(null)
-const [info, setinfo]= useState(null)
+const [picture, setPicture]= useState(null)
 
-// const signIn=async()=>{
-//   console.log('Sign In')
-//   let email=document.getElementById("signInEmail").value
-//   let password=document.getElementById("signInPassword").value
-//   console.log(email)
-//   let myResponse = await axios.post('signIn/',{
-//     'email':email,
-//     'password':password
-//   })
-//   console.log(myResponse.data)
-  
-//   if (myResponse.data["signIn"]==true){
-//     window.location.reload() // reload's the web page
-//     setinfo(null)
-//   }
-//   else{
-//     setinfo('Wrong User-Name or Password')
-//   }
-// }
+// API
+// 826 characters
+// https://rickandmortyapi.com/documentation
+// character: used to get all the characters. or character/(number) to git one caracter
+// location: used to get all the locations.
+// episode: used to get all the episodes.
+// Example: console.log(res.data.results[0].origin.url)
+      // fetch("https://rickandmortyapi.com/api")
+      //   .then((res) => res.json())
+      //   .then((data) => {
+      //     console.log(data);
+      //   });
+useEffect(() => { axios.get("https://rickandmortyapi.com/api/character")
+  .then((res) => {
+  // console.log(res.data.results[0].origin.url);
+  const imag = res.data.results[0].origin.url;
+  console.log(imag);
+  setPicture(imag);
+  console.log(picture)
+  })
+}, [])
 
-// const signUp=async()=>{
-//   console.log('Sign Up')
-
-//   let email=document.getElementById("signInEmail").value
-//   console.log("email: " + email)
-//   let password=document.getElementById("signUpPassword").value
-//   if (password.length < 8){
-//     setinfo('Password must be 8 letter long')
-//   }
-//   else{
-//     let myResponse = await axios.post('signUp/',{
-//       'email':email,
-//       'password':password
-//     })
-//     console.log(myResponse.data)
-//     if(myResponse.data.signup == false){setinfo('That user allready exists')}
-//     else{setinfo(null)}
-//   }
-// }
+useEffect(() => {
+  console.log('--picture--')
+  console.log(picture)
+},[]);
 
 const signOut=async()=>{
   console.log('Sign Out') 
@@ -85,28 +77,57 @@ const signOut=async()=>{
 const curr_user=async()=>{
   let myResponse=await axios.get('current_user')
   let user= myResponse.data && myResponse.data[0] && myResponse.data[0].fields
+  console.log(user)
   setUser(user)
 }
 useEffect(() =>{
   curr_user()
 },[])
 
-
+// if (user) {
+//   let picture = user['picture']
+//   let user_image = "https://rickandmortyapi.com/api/character/avatar/2.jpeg"
+//   console.log(user_image)
+// }
 
   return (
     <div className="App">
+      <img id="" src="https://rickandmortyapi.com/api/character/avatar/1.jpeg"></img>
+      {/* <img src={user_image} id="image" height="150px" width ="150px"></img> */}
+      {/* <script>
+      const a1 = 'https://rickandmortyapi.com/api/character/avatar/2.jpeg';
+      const image = document.getElementById("image");
+      image.src = a1;
+      </script> */}
+
       {!user &&<AppNav />}
       {user && <h1>User {user.email} is signed in.</h1>}
-      {/* {info && <h2>{info}</h2>} */}
+      {/* {user && <h1>--- {user.picture} ---</h1>} */}
       
       { <div className="card">
         {user && <button onClick={signOut}>Sign Out</button>}
       </div> }
 
+      {user && 
+      <Navbar>
+          <Nav>
+              <Nav.Link href="/" >Home</Nav.Link>
+              <br/>
+              <Nav.Link href="/#/upDate" >Update</Nav.Link>
+          </Nav>
+      </Navbar>
+      }
+      {user && <Router>
+        <Routes>
+          <Route path="/upDate" element={<UpDate />}></Route>
+        </Routes>
+      </Router>
+      }
+
       {!user && <Router>
         <Routes>
-          <Route path="/signUp" element={<SignUp />}> </Route>
-          <Route path="/signIn" element={<SignIn />}> </Route>
+          <Route path="/signUp" element={<SignUp />}></Route>
+          <Route path="/signIn" element={<SignIn />}></Route>
         </Routes>
       </Router>
       }

@@ -6,8 +6,11 @@ const AppNav=()=>{
     return(
         <Navbar>
             <Nav>
-                <Nav.Link href="/#/signUp" >Sign Up</Nav.Link>
+                <Nav.Link href="/" >Home</Nav.Link>
+                <br/>
                 <Nav.Link href="/#/signIn" >Sign In</Nav.Link>
+                <br/>
+                <Nav.Link href="/#/signUp" >Sign Up</Nav.Link>
             </Nav>
         </Navbar>
     )

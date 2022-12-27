@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import (AbstractUser)
+import random
 
 # Create your models here.
 class AppUser(AbstractUser):
@@ -11,6 +12,10 @@ class AppUser(AbstractUser):
         max_length=255,
         unique=True,
     )
+
+    wealth = models.PositiveBigIntegerField()
+    picture = models.PositiveSmallIntegerField()
+    # random.randint(1, 826)
 
     # A user account must be active to log in, etc.
     is_active =  models.BooleanField(

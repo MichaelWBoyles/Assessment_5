@@ -18,8 +18,7 @@ const SignIn=()=>{
         console.log(myResponse.data)
         
         if (myResponse.data["signIn"]==true){
-          window.location.reload() // reload's the web page
-          setinfo(null)
+          window.location.href="/"
         }
         else{
           setinfo('Wrong User-Name or Password')
